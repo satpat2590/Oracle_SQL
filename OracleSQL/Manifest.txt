@@ -1,0 +1,4 @@
+Main-class: Customer
+Class-Path: ojdbc8.jar
+
+

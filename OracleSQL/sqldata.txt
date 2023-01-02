@@ -1,0 +1,397 @@
+javac -cp ./ojdbc8.jar Customer.java -d ./
+
+
+jar cfmv Customer.jar Manifest.txt Customer.class
+
+java -jar Customer.jar
+
+PL/SQL 
+
+set serveroutput on;
+
+create table customer (
+    c_id numeric(5) generated always as identity,
+    f_name varchar(20) NOT NULL,
+    l_name varchar(20) NOT NULL,
+    email varchar(30) NOT NULL,
+    a_id numeric(8) NULL,
+    v_id numeric(8) NULL,
+    PRIMARY KEY (c_id),
+    CONSTRAINT cust_key FOREIGN KEY (a_id)
+    REFERENCES address (a_id)
+);
+
+--insert preliminary user data 
+insert into customer (f_name, l_name, email) values ('Johnny', 'Sins', 'jsins@gmail.com');
+insert into customer (f_name, l_name, email) values ('Jeremy', 'Onsinyo', 'jonsinyo@gmail.com');
+insert into customer (f_name, l_name, email) values ('Reginald', 'Peters', 'regipeters@gmail.com');
+insert into customer (f_name, l_name, email) values ('Jamison', 'Wigsby', 'jamisonwigsby445@gmail.com');
+insert into customer (f_name, l_name, email) values ('Dustin', 'Jenkins', 'dmoney@gmail.com');
+
+select * from customer; 
+
+--insert user address
+update customer set a_id = '4' where email = 'jonsinyo@gmail.com'; 
+
+--insert car data
+insert into vehicle (model, year, color, package) values ('M', '2022', 'Blue', 'Moon Bounce');
+select v_id from vehicle where color = 'Blue' and package = 'Moon Bounce';
+select * from vehicle; 
+update customer set v_id = '8' where email = 'jonsinyo@gmail.com';
+
+describe customer; 
+
+select * from (customer natural join vehicle) natural join address; 
+
+select * from service_loc natural join address;  
+
+select distinct model from modifications; 
+
+commit;
+
+drop table customer;
+
+commit; 
+
+create table payment (
+     c_id numeric(5),
+     card_no varchar(12) NOT NULL,
+     exp_month numeric(2) NOT NULL,
+     exp_year numeric(5) NOT NULL,
+     cvv numeric(3) NOT NULL,
+     PRIMARY KEY (c_id)
+); 
+     
+commit; 
+
+drop table payment; 
+
+describe payment; 
+
+insert into payment (c_id, card_no, exp_month, exp_year, cvv) values ('1', '333042355668', '06', '2023', '567');
+insert into payment (c_id, card_no, exp_month, exp_year, cvv) values ('3', '483792385987', '09', '2025', '543');
+insert into payment (c_id, card_no, exp_month, exp_year, cvv) values ('4', '930940094853', '11', '2022', '235');
+insert into payment (c_id, card_no, exp_month, exp_year, cvv) values ('2', '549398403409', '12', '2026', '654');
+insert into payment (c_id, card_no, exp_month, exp_year, cvv) values ('5', '694929085040', '03', '2024', '546');
+
+
+select * from customer natural join payment; 
+
+select * from customer natural join address; 
+
+commit; 
+
+create table address (
+     a_id numeric(8) generated always as identity,
+     planet varchar(15) NOT NULL,
+     landmass varchar(30) NOT NULL,
+     city varchar(20),
+     CONSTRAINT address_key PRIMARY KEY (a_id)
+);
+
+select distinct planet from address;
+
+select a_id from address where planet = 'Earth' and landmass = 'Canada' and city = 'Toronto';
+
+insert into address (planet, landmass, city) values ('Estoria', 'Ludvig', 'Aldaton');
+insert into address (planet, landmass, city) values ('Estoria', 'Ludvig', 'Laskin City');
+insert into address (planet, landmass, city) values ('Estoria', 'Arnamin', 'Dhunma');
+insert into address (planet, landmass, city) values ('Estoria', 'Arnamin', 'Arnamin City');
+insert into address (planet, landmass, city) values ('Estoria', 'Loona', 'New Chicago');
+insert into address (planet, landmass, city) values ('Estoria', 'Loona', 'Great York');
+insert into address (planet, landmass, city) values ('Estoria', 'Loona', 'Los Santos');
+insert into address (planet, landmass, city) values ('Estoria', 'East Arnamin', 'Rajbhog');
+insert into address (planet, landmass, city) values ('Estoria', 'East Arnamin', 'New Jaipur');
+
+insert into address (planet, landmass, city) values ('Januk', 'Chumna', 'Chumna City');
+insert into address (planet, landmass, city) values ('Januk', 'Chumna', 'Hashred');
+insert into address (planet, landmass, city) values ('Januk', 'West Chumna', 'Hasbokla');
+insert into address (planet, landmass, city) values ('Januk', 'West Chumna', 'Hasbulla');
+insert into address (planet, landmass, city) values ('Januk', 'Kingdom of Hunsad', 'Royal Hunsad');
+insert into address (planet, landmass, city) values ('Januk', 'Kingdom of Hunsad', 'Regris');
+insert into address (planet, landmass, city) values ('Januk', 'Janukia', 'Gaia');
+insert into address (planet, landmass, city) values ('Januk', 'Janukia', 'Eros');
+insert into address (planet, landmass, city) values ('Januk', 'Dead Zone', 'Last City');
+
+commit; 
+
+insert into address (planet, landmass, city) values ('Earth', 'Canada', 'Toronto');
+insert into address (planet, landmass, city) values ('Earth', 'United States of America', 'New York');
+insert into address (planet, landmass, city) values ('Earth', 'United States of America', 'Los Angeles');
+insert into address (planet, landmass, city) values ('Earth', 'United States of America', 'Houston');
+insert into address (planet, landmass, city) values ('Earth', 'Ghana', 'Accra');
+insert into address (planet, landmass, city) values ('Earth', 'Germany', 'Berlin');
+insert into address (planet, landmass, city) values ('Earth', 'Russia', 'Moscow');
+insert into address (planet, landmass, city) values ('Earth', 'Russia', 'St. Petersburg');
+insert into address (planet, landmass, city) values ('Earth', 'China', 'Beijing');
+insert into address (planet, landmass, city) values ('Earth', 'China', 'Shanghai');
+insert into address (planet, landmass, city) values ('Earth', 'Australia', 'Sydney');
+insert into address (planet, landmass, city) values ('Earth', 'India', 'Mumbai');
+insert into address (planet, landmass, city) values ('Earth', 'India', 'New Delhi');
+
+commit; 
+
+insert into address (planet, landmass, city) values ('Arda', 'Gondor', 'Andrast');
+insert into address (planet, landmass, city) values ('Arda', 'Gondor', 'Edhellond');
+insert into address (planet, landmass, city) values ('Arda', 'Mordor', 'Nurn');
+insert into address (planet, landmass, city) values ('Arda', 'Rohan', 'Edoras');
+insert into address (planet, landmass, city) values ('Arda', 'Rohan', 'Minas Tirith');
+insert into address (planet, landmass, city) values ('Arda', 'Eriador', 'Hobbiton');
+insert into address (planet, landmass, city) values ('Arda', 'Eriador', 'The Shire');
+insert into address (planet, landmass, city) values ('Arda', 'Arnor', 'Fornost');
+insert into address (planet, landmass, city) values ('Arda', 'Rhovanion', 'Mirkwood');
+insert into address (planet, landmass, city) values ('Arda', 'Rhovanion', 'Lakewood');
+
+commit; 
+
+insert into address (planet, landmass, city) values ('Europa', 'West Europa', 'Jackson City');
+insert into address (planet, landmass, city) values ('Europa', 'East Europa', 'Asgard');
+insert into address (planet, landmass, city) values ('Europa', 'Duro', 'Superstito');
+insert into address (planet, landmass, city) values ('Europa', 'Duro', 'Capone');
+
+insert into address (planet, landmass, city) values ('Europa', 'Duro', 'Capone');
+
+commit; 
+
+select * from address; 
+
+select * from customer;
+
+select * from (customer natural join payment) natural join vehicle natural join modifications;
+
+
+select distinct package from modifications where model = 'M';
+
+commit; 
+
+drop table address; 
+
+describe address; 
+
+create table vehicle (
+     v_id numeric(8) generated always as identity NOT NULL,
+     model varchar(2) NOT NULL,
+     color varchar(15),
+     year varchar(5) NOT NULL,
+     package varchar(40),
+     PRIMARY KEY (v_id),
+     CONSTRAINT vehicle_key FOREIGN KEY (model, package)
+     REFERENCES modifications (model, package)
+);
+
+drop table vehicle; 
+
+describe vehicle; 
+
+select * from service_loc natural join address where planet = 'Arda' and landmass = 'Mordor' and model = 'K';
+
+select * from vehicle; 
+
+insert into vehicle (model, color, year, package) values ('M', 'Yellow', '2021', 'Low-Gravity Hydraulics'); 
+insert into vehicle (model, color, year, package) values ('M', 'Black', '2022', 'Stock');
+insert into vehicle (model, color, year, package) values ('K', 'Orange', '2022', 'Ultra Comfort');
+insert into vehicle (model, color, year, package) values ('U', 'Black', '2022', 'Shark Speed');
+insert into vehicle (model, color, year, package) values ('U', 'White', '2022', 'Shark Speed');
+insert into vehicle (model, color, year, package) values ('S', 'Grey', '2022', 'Wormhole Traverse');
+insert into vehicle (model, color, year, package) values ('K', 'Blue', '2022', 'Hellfire');
+insert into vehicle (model, color, year, package) values ('S', 'Yellow', '2022', 'Han Solo');
+insert into vehicle (model, color, year, package) values ('S', 'Black', '2022', 'Wormhole Traverse');
+
+select * from vehicle natural join modifications;
+
+create table modifications (
+     model varchar(2) NOT NULL,
+     package varchar(40),
+     description varchar(100),
+     price numeric(10),
+     PRIMARY KEY (model, package)
+);
+
+drop table modifications; 
+
+describe modifications; 
+
+select * from modifications;  
+
+insert into modifications (model, package, description, price) values ('M', 'Stock', 'The stock version of the Model M', '40000');
+insert into modifications (model, package, description, price) values ('M', 'Low-Gravity Hydraulics', 'Allows you to use more optimized hydraulics package on the surface of the Moon.', '45000');
+insert into modifications (model, package, description, price) values ('M', 'Moon Bounce', 'Allows you to use the low gravity to bounce great heights.', '46000');
+insert into modifications (model, package, description, price) values ('U', 'Stock', 'The stock version of the Model U', '60000');
+insert into modifications (model, package, description, price) values ('U', 'Sonar', 'Enables car to send sonar waves to track nearby objects and creatures.', '65000');
+insert into modifications (model, package, description, price) values ('U', 'Salvager', 'Equipped with salvager gear to acquire treasures and other objects in the sea.', '65000');
+insert into modifications (model, package, description, price) values ('U', 'Shark Speed', 'Added fins to the top along with aqua jet propulsion for a speedy time.', '67000');
+insert into modifications (model, package, description, price) values ('S', 'Stock', 'The stock version of the Model S', '100000');
+insert into modifications (model, package, description, price) values ('S', 'Hyperspeed', 'Make the jump to hyper space with this monstrous edition.', '120000');
+insert into modifications (model, package, description, price) values ('S', 'Wormhole Traverse', 'Allows you to traverse through wormholes without negative side effects.', '120000');
+insert into modifications (model, package, description, price) values ('S', 'Han Solo', 'Equipped with both hyperspeed and wormhole traverse packages. Also comes with two helper droids.', '150000');
+insert into modifications (model, package, description, price) values ('K', 'Stock', 'The stock version of the Model K', '50000');
+insert into modifications (model, package, description, price) values ('K', 'Ultra Comfort', 'Premium leather massage + heated seats for the best comfort money can buy.', '60000');
+insert into modifications (model, package, description, price) values ('K', 'Hellfire', 'Rocket fuel propulsion engine for a fiery blast-off everytime.', '55000');
+
+commit;
+
+
+create table service_loc (
+     a_id numeric(8) NOT NULL,
+     model varchar(2) NOT NULL, 
+     PRIMARY KEY (a_id, model),
+     CONSTRAINT serv_key FOREIGN KEY (a_id) 
+     REFERENCES address (a_id)
+); 
+
+describe service_loc; 
+
+drop table service_loc; 
+
+
+insert into service_loc (a_id, model) values ('3', 'M');
+insert into service_loc (a_id, model) values ('3', 'S');
+
+--Estoria
+insert into service_loc (a_id, model) values ('1', 'K');
+insert into service_loc (a_id, model) values ('2', 'K');
+insert into service_loc (a_id, model) values ('2', 'U');
+insert into service_loc (a_id, model) values ('3', 'K');
+insert into service_loc (a_id, model) values ('4', 'K');
+insert into service_loc (a_id, model) values ('4', 'U');
+insert into service_loc (a_id, model) values ('5', 'K');
+insert into service_loc (a_id, model) values ('5', 'U');
+insert into service_loc (a_id, model) values ('6', 'K');
+insert into service_loc (a_id, model) values ('6', 'S');
+insert into service_loc (a_id, model) values ('7', 'K');
+insert into service_loc (a_id, model) values ('8', 'K');
+insert into service_loc (a_id, model) values ('9', 'K');
+insert into service_loc (a_id, model) values ('9', 'U');
+
+commit;
+
+--Januk
+insert into service_loc (a_id, model) values ('10', 'K');
+insert into service_loc (a_id, model) values ('10', 'S');
+insert into service_loc (a_id, model) values ('11', 'K');
+insert into service_loc (a_id, model) values ('11', 'U');
+insert into service_loc (a_id, model) values ('12', 'K');
+insert into service_loc (a_id, model) values ('13', 'K');
+insert into service_loc (a_id, model) values ('13', 'S');
+insert into service_loc (a_id, model) values ('14', 'K');
+insert into service_loc (a_id, model) values ('14', 'S');
+insert into service_loc (a_id, model) values ('14', 'U');
+insert into service_loc (a_id, model) values ('15', 'K');
+insert into service_loc (a_id, model) values ('16', 'K');
+insert into service_loc (a_id, model) values ('17', 'K');
+insert into service_loc (a_id, model) values ('17', 'S');
+insert into service_loc (a_id, model) values ('18', 'K');
+
+commit; 
+
+--Earth
+insert into service_loc (a_id, model) values ('19', 'K');
+insert into service_loc (a_id, model) values ('19', 'U');
+insert into service_loc (a_id, model) values ('20', 'K');
+insert into service_loc (a_id, model) values ('20', 'U');
+insert into service_loc (a_id, model) values ('20', 'S');
+insert into service_loc (a_id, model) values ('21', 'K');
+insert into service_loc (a_id, model) values ('21', 'U');
+insert into service_loc (a_id, model) values ('22', 'K');
+insert into service_loc (a_id, model) values ('22', 'S');
+insert into service_loc (a_id, model) values ('23', 'K');
+insert into service_loc (a_id, model) values ('24', 'K');
+insert into service_loc (a_id, model) values ('25', 'K');
+insert into service_loc (a_id, model) values ('25', 'S');
+insert into service_loc (a_id, model) values ('26', 'K');
+insert into service_loc (a_id, model) values ('27', 'K');
+insert into service_loc (a_id, model) values ('27', 'S');
+insert into service_loc (a_id, model) values ('28', 'K');
+insert into service_loc (a_id, model) values ('29', 'K');
+insert into service_loc (a_id, model) values ('29', 'U');
+insert into service_loc (a_id, model) values ('30', 'K');
+insert into service_loc (a_id, model) values ('30', 'U');
+insert into service_loc (a_id, model) values ('31', 'K');
+insert into service_loc (a_id, model) values ('31', 'S');
+
+commit; 
+
+--Arda 
+insert into service_loc (a_id, model) values ('32', 'K');
+insert into service_loc (a_id, model) values ('33', 'K');
+insert into service_loc (a_id, model) values ('33', 'U');
+insert into service_loc (a_id, model) values ('34', 'K');
+insert into service_loc (a_id, model) values ('34', 'S');
+insert into service_loc (a_id, model) values ('35', 'K');
+insert into service_loc (a_id, model) values ('36', 'K');
+insert into service_loc (a_id, model) values ('36', 'S');
+insert into service_loc (a_id, model) values ('37', 'K');
+insert into service_loc (a_id, model) values ('38', 'K');
+insert into service_loc (a_id, model) values ('39', 'K');
+insert into service_loc (a_id, model) values ('40', 'K');
+insert into service_loc (a_id, model) values ('41', 'K');
+
+commit; 
+
+--Europa
+insert into service_loc (a_id, model) values ('42', 'M');
+insert into service_loc (a_id, model) values ('43', 'M');
+insert into service_loc (a_id, model) values ('44', 'M');
+insert into service_loc (a_id, model) values ('44', 'S');
+insert into service_loc (a_id, model) values ('45', 'M');
+
+commit; 
+
+--CREATE A NEW SERVICE LOCATION
+
+--list of planets
+select distinct planet from address;
+
+--list of states within planet
+select distinct landmass from address where planet = 'Arda';
+
+--list of cities within specific landmass
+select distinct city from address where landmass = 'Rhovanion';
+
+
+select distinct package from modifications where model = 'M';
+
+
+
+select * from service_loc natural join address where planet = 'Europa' and landmass = 'East Europe' and city = 'Laskin';
+
+select * from customer natural join address;
+
+select * from vehicle;
+
+select * from (customer natural join vehicle) natural join address; 
+
+select * from address; 
+
+select * from customer;
+
+select * from vehicle where v_id = '42';
+
+
+drop table service_loc; 
+
+commit; 
+
+describe service_loc; 
+
+create table display_vehicle (
+     s_id numeric(5) NOT NULL,
+     v_id numeric(8) NOT NULL,
+     CONSTRAINT disp_key FOREIGN KEY (v_id) 
+     REFERENCES vehicle(v_id)
+); 
+
+commit; 
+
+drop table display_vehicle; 
+
+select * from display_vehicle;
+
+describe display_vehicle; 
+
+insert into display_vehicle (s_id, v_id) values ('60','3');
+insert into display_vehicle (s_id, v_id) values ('60','5');
+insert into display_vehicle (s_id, v_id) values ('59','2');
+
+
+commit;
